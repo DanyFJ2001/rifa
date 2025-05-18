@@ -391,3 +391,101 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.head.appendChild(style);
 });
+// Funcionalidad del carrusel mejorado
+document.addEventListener('DOMContentLoaded', function() {
+  const slides = document.querySelectorAll('.carrusel-slide');
+  const indicators = document.querySelectorAll('.indicador');
+  const prevBtn = document.querySelector('.carrusel-prev');
+  const nextBtn = document.querySelector('.carrusel-next');
+  
+  let currentIndex = 0;
+  let slideInterval;
+  
+  // Inicializar el carrusel
+  initCarousel();
+  
+  function initCarousel() {
+    // Preparar las posiciones iniciales de los slides
+    updateSlides();
+    
+    // Iniciar el deslizamiento automático
+    startAutoSlide();
+    
+    // Agregar eventos a los controles
+    prevBtn.addEventListener('click', prevSlide);
+    nextBtn.addEventListener('click', nextSlide);
+    
+    // Eventos para los indicadores
+    indicators.forEach((indicator, index) => {
+      indicator.addEventListener('click', () => goToSlide(index));
+    });
+    
+    // Pausar la reproducción automática al pasar el mouse por encima
+    document.querySelector('.carrusel-premio').addEventListener('mouseenter', stopAutoSlide);
+    document.querySelector('.carrusel-premio').addEventListener('mouseleave', startAutoSlide);
+  }
+  
+  function updateSlides() {
+    slides.forEach((slide, index) => {
+      slide.classList.remove('active', 'prev');
+      
+      if (index === currentIndex) {
+        slide.classList.add('active');
+      } else if (index === getPrevIndex()) {
+        slide.classList.add('prev');
+      }
+    });
+    
+    // Actualizar indicadores
+    indicators.forEach((indicator, index) => {
+      indicator.classList.toggle('active', index === currentIndex);
+    });
+  }
+  
+  function nextSlide() {
+    currentIndex = getNextIndex();
+    updateSlides();
+  }
+  
+  function prevSlide() {
+    currentIndex = getPrevIndex();
+    updateSlides();
+  }
+  
+  function goToSlide(index) {
+    currentIndex = index;
+    updateSlides();
+    resetAutoSlide();
+  }
+  
+  function getNextIndex() {
+    return (currentIndex + 1) % slides.length;
+  }
+  
+  function getPrevIndex() {
+    return (currentIndex - 1 + slides.length) % slides.length;
+  }
+  
+  function startAutoSlide() {
+    stopAutoSlide(); // Evitar múltiples intervalos
+    slideInterval = setInterval(nextSlide, 5000);
+  }
+  
+  function stopAutoSlide() {
+    clearInterval(slideInterval);
+  }
+  
+  function resetAutoSlide() {
+    stopAutoSlide();
+    startAutoSlide();
+  }
+  
+  // Efecto visual para la barra de progreso
+  const progressMarker = document.querySelector('.progreso-marker');
+  const progressBar = document.querySelector('.progreso');
+  const progressValue = 0; // Mantenemos en 0% como solicitaste
+  
+  // Configurar la barra de progreso
+  progressBar.style.width = progressValue + '%';
+  progressMarker.style.left = progressValue + '%';
+});
