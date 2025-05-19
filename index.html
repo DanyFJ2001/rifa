@@ -4,141 +4,200 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jcaizas - Sorteo Oficial Suzuki Forsa 1 </title> 
-    <link rel="shortcut icon" href="LOGO 2 COLORES-01.png" type="image/x-icon">
+    <link rel="shortcut icon" href="imagenes/LOGO 2 COLORES-01.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos para los modales */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #e60019;
+            text-decoration: none;
+        }
+
+        .modal-content h2 {
+            color: #1e3160;
+            margin-bottom: 20px;
+        }
+
+        .modal-content h3 {
+            color: #1e3160;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .modal-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .modal-content ul {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+
+        .modal-content li {
+            margin-bottom: 8px;
+        }
+    </style>
 </head>
 <body>
     <div class="landing-container">
         <nav class="navbar" [ngClass]="{'scrolled': isScrolled}">
-    <div class="logo">
-        <img src="LOGO 2 COLORES-01.png" alt="Logo de JCAIZAS">
-        <a href="#" class="logo-text">JCAIZAS</a>
-    </div>
-        
-    <ul class="nav-links">
-        <li><a href="index.html">Inicio</a></li>
-        
-    </ul>
-        
-    <button class="get-started">Iniciar Sesión</button>
-</nav>
-<!-- Sección del Premio Principal con Carrusel y Barra de Progreso -->
-<section class="premio-principal">
-  <div class="contenedor">
-    <!-- Encabezado del Premio -->
-    <div class="premio-header">
-      <h2 class="premio-titulo-principal">JUEGA</h2>
-      <h3 class="premio-subtitulo">SUZUKI FORSA 1</h3>
-      <p class="premio-actividad">CLÁSICO DE LOS 90's</p>
-    </div>
-    
-    <!-- Carrusel del Premio -->
-    <div class="carrusel-premio">
-      <div class="carrusel-wrapper">
-        <div class="carrusel-slide active">
-          <img src="carro.png" alt="Suzuki Forsa 1" class="premio-imagen">
-          <div class="premio-overlay">
-            <div class="premio-badge">¡CLÁSICO!</div>
-          </div>
-        </div>
-        <!-- Puedes añadir más slides con diferentes ángulos del auto -->
-        <div class="carrusel-slide">
-          <img src="suzuki2.png" alt="Suzuki Forsa 1" class="premio-imagen">
-          <div class="premio-overlay">
-            <div class="premio-badge">¡ÚNICO!</div>
-          </div>
-        </div>
-        <div class="carrusel-slide">
-          <img src="3.png" alt="Suzuki Forsa 1" class="premio-imagen">
-          <div class="premio-overlay">
-            <div class="premio-badge">¡ECONÓMICO!</div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Controles del Carrusel -->
-      <button class="carrusel-control carrusel-prev">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-      <button class="carrusel-control carrusel-next">
-        <i class="fas fa-chevron-right"></i>
-      </button>
-      
-      <!-- Indicadores del Carrusel -->
-      <div class="carrusel-indicadores">
-        <span class="indicador active" data-slide="0"></span>
-        <span class="indicador" data-slide="1"></span>
-        <span class="indicador" data-slide="2"></span>
-      </div>
-    </div>
-    
-    <!-- Sección de Cantidades Limitadas -->
-    <div class="cantidades-limitadas">
-      <h4 class="cantidades-titulo">¡CANTIDADES LIMITADAS!</h4>
-      
-      <!-- Barra de Progreso Mejorada -->
-      <div class="progreso-container">
-        <div class="barra-progreso">
-          <div class="progreso-background">
-            <div class="progreso-lines"></div>
-          </div>
-          <div class="progreso" style="width: 0%">
-            <div class="progreso-glow"></div>
-          </div>
-          <div class="progreso-marker"></div>
-        </div>
-        <div class="progreso-labels">
-          <div class="progreso-label-left">0%</div>
-          <div class="progreso-label-center">
-            <div class="porcentaje-vendido">
-              <span class="porcentaje-icon"><i class="fas fa-ticket-alt"></i></span>
-              <span class="porcentaje-text">Boletos Vendidos: <strong>0.00%</strong></span>
+            <div class="logo">
+                <img src="imagenes/LOGO 2 COLORES-01.png" alt="Logo de JCAIZAS">
+                <a href="#" class="logo-text">JCAIZAS</a>
             </div>
-          </div>
-          <div class="progreso-label-right">100%</div>
-        </div>
-      </div>
-      
-      <!-- Información adicional -->
-      <div class="cantidades-info">
-        <div class="info-pill">
-          <i class="fas fa-clock"></i>
-          <span>¡Date prisa! Sorteo próximamente</span>
-        </div>
-      </div>
-      
-      <!-- Mensaje Legal -->
-    
-    </div>
-  </div>
-</section>
+                
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+            </ul>
+        </nav>
+        
+        <!-- Sección del Premio Principal con Carrusel y Barra de Progreso -->
+        <section class="premio-principal">
+            <div class="contenedor">
+                <!-- Encabezado del Premio -->
+                <div class="premio-header">
+                    <h2 class="premio-titulo-principal">JUEGA</h2>
+                    <h3 class="premio-subtitulo">SUZUKI FORSA 1</h3>
+                    <p class="premio-actividad">CLÁSICO DE LOS 90's</p>
+                </div>
+                
+                <!-- Carrusel del Premio -->
+                <div class="carrusel-premio">
+                    <div class="carrusel-wrapper">
+                        <div class="carrusel-slide active">
+                            <img src="imagenes/carro.png" alt="Suzuki Forsa 1" class="premio-imagen">
+                            <div class="premio-overlay">
+                                <div class="premio-badge">¡CLÁSICO!</div>
+                            </div>
+                        </div>
+                        <!-- Puedes añadir más slides con diferentes ángulos del auto -->
+                        <div class="carrusel-slide">
+                            <img src="imagenes/suzuki2.png" alt="Suzuki Forsa 1" class="premio-imagen">
+                            <div class="premio-overlay">
+                                <div class="premio-badge">¡ÚNICO!</div>
+                            </div>
+                        </div>
+                        <div class="carrusel-slide">
+                            <img src="imagenes/3.png" alt="Suzuki Forsa 1" class="premio-imagen">
+                            <div class="premio-overlay">
+                                <div class="premio-badge">¡ECONÓMICO!</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Controles del Carrusel -->
+                    <button class="carrusel-control carrusel-prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carrusel-control carrusel-next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    
+                    <!-- Indicadores del Carrusel -->
+                    <div class="carrusel-indicadores">
+                        <span class="indicador active" data-slide="0"></span>
+                        <span class="indicador" data-slide="1"></span>
+                        <span class="indicador" data-slide="2"></span>
+                    </div>
+                </div>
+                
+                <!-- Sección de Cantidades Limitadas -->
+                <div class="cantidades-limitadas">
+                    <h4 class="cantidades-titulo">¡CANTIDADES LIMITADAS!</h4>
+                    
+                    <!-- Barra de Progreso Mejorada -->
+                    <div class="progreso-container">
+                        <div class="barra-progreso">
+                            <div class="progreso-background">
+                                <div class="progreso-lines"></div>
+                            </div>
+                            <div class="progreso" style="width: 0%">
+                                <div class="progreso-glow"></div>
+                            </div>
+                            <div class="progreso-marker"></div>
+                        </div>
+                        <div class="progreso-labels">
+                            <div class="progreso-label-left">0%</div>
+                            <div class="progreso-label-center">
+                                <div class="porcentaje-vendido">
+                                    <span class="porcentaje-icon"><i class="fas fa-ticket-alt"></i></span>
+                                    <span class="porcentaje-text">Boletos Vendidos: <strong>0.00%</strong></span>
+                                </div>
+                            </div>
+                            <div class="progreso-label-right">100%</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Información adicional -->
+                    <div class="cantidades-info">
+                        <div class="info-pill">
+                            <i class="fas fa-clock"></i>
+                            <span>¡Date prisa! Sorteo próximamente</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <main class="main-content">
             <div class="left-content">
-            
                 <div class="premio-destacado">
-    <div class="premio-etiqueta">¡GRAN SORTEO OFICIAL!</div>
-    <div class="premio-contenido">
-        <div class="premio-imagen-contenedor">
-            <img src="carro.png" alt="Suzuki Forsa 1 Clásico" class="auto-imagen">
-            <div class="premio-insignia">CLÁSICO</div>
-        </div>
-        <div class="premio-info">
-            <h3 class="premio-titulo">SUZUKI FORSA 1</h3>
-            <div class="premio-caracteristicas">
-                <p class="caracteristica-item"><i class="fas fa-star"></i> Auto ícono de los 90's</p>
-                <p class="caracteristica-item"><i class="fas fa-gas-pump"></i> Ultra económico (25km/l)</p>
-                <p class="caracteristica-item"><i class="fas fa-car"></i> Ideal como primer auto</p>
-                <p class="caracteristica-item"><i class="fas fa-money-bill-wave"></i> Bajo costo de mantenimiento</p>
-                <p class="caracteristica-item"><i class="fas fa-key"></i> Entrega inmediata</p>
-                <p class="caracteristica-item"><i class="fas fa-check-circle"></i> Documentos completos y al día</p>
-            </div>
-        </div>
-    </div>
-</div>
-                
+                    <div class="premio-etiqueta">¡GRAN SORTEO OFICIAL!</div>
+                    <div class="premio-contenido">
+                        <div class="premio-imagen-contenedor">
+                            <img src="imagenes/carro.png" alt="Suzuki Forsa 1 Clásico" class="auto-imagen">
+                            <div class="premio-insignia">CLÁSICO</div>
+                        </div>
+                        <div class="premio-info">
+                            <h3 class="premio-titulo">SUZUKI FORSA 1</h3>
+                            <div class="premio-caracteristicas">
+                                <p class="caracteristica-item"><i class="fas fa-star"></i> Auto ícono de los 90's</p>
+                                <p class="caracteristica-item"><i class="fas fa-gas-pump"></i> Ultra económico (25km/l)</p>
+                                <p class="caracteristica-item"><i class="fas fa-car"></i> Ideal como primer auto</p>
+                                <p class="caracteristica-item"><i class="fas fa-money-bill-wave"></i> Bajo costo de mantenimiento</p>
+                                <p class="caracteristica-item"><i class="fas fa-key"></i> Entrega inmediata</p>
+                                <p class="caracteristica-item"><i class="fas fa-check-circle"></i> Documentos completos y al día</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
                 <div class="countdown-section">
                     <div class="countdown-title">TIEMPO RESTANTE PARA EL SORTEO</div>
@@ -187,7 +246,7 @@
             </div>
 
             <div class="right-content">
-                <img src="ChatGPT Image 17 may 2025, 16_14_30.png" alt="Suzuki Forsa 1 Clásico" class="auto-imagen">
+                <img src="imagenes/ChatGPT Image 17 may 2025, 16_14_30.png" alt="Suzuki Forsa 1 Clásico" class="auto-imagen">
              
                 <div class="form-container" id="form-step-1">
                     <h3>RESERVA TU NÚMERO</h3>
@@ -216,7 +275,7 @@
                     <button id="btn-siguiente" class="btn-primary">CONTINUAR</button>
                     
                     <div class="form-footer">
-                        <p>Al participar aceptas los términos y condiciones del sorteo</p>
+                        <p>Al participar aceptas los <a href="#" id="open-terms-modal">términos y condiciones</a> del sorteo y nuestra <a href="#" id="open-privacy-modal">política de privacidad</a></p>
                     </div>
                 </div>
 
@@ -263,7 +322,7 @@
                         <p><strong>Tipo de cuenta:</strong> Corriente</p>
                         <p><strong>Número de cuenta:</strong> 1234-5678-9012-3456</p>
                         <p><strong>Cédula/RUC:</strong> 1234567890</p>
-                        <p><strong>Valor por número:</strong> $10.00</p>
+                        <p><strong>Valor por número:</strong> $3.00</p>
                         <p><strong>Total a pagar:</strong> $<span id="total-pagar">0.00</span></p>
                     </div>
                     
@@ -282,233 +341,318 @@
         </main>
 
         <section class="como-participar" id="como-participar">
-    <div class="container">
-        <h2 class="section-title">¿CÓMO PARTICIPAR?</h2>
-        <p class="section-description">Sigue estos sencillos pasos para aumentar tus posibilidades de ganar</p>
-        
-        <div class="steps-container">
-            <div class="step-card">
-                <div class="step-number">1</div>
-                <div class="step-icon">
-                    <i class="fas fa-user-edit"></i>
-                </div>
-                <h3 class="step-title">Regístrate</h3>
-                <p class="step-description">Completa tus datos en el formulario para comenzar el proceso.</p>
-                <div class="step-arrow">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-            </div>
-            
-            <div class="step-card">
-                <div class="step-number">2</div>
-                <div class="step-icon">
-                    <i class="fas fa-ticket-alt"></i>
-                </div>
-                <h3 class="step-title">Elige tus números</h3>
-                <p class="step-description">Selecciona hasta 10 números para aumentar tus probabilidades.</p>
-                <div class="step-arrow">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-            </div>
-            
-            <div class="step-card">
-                <div class="step-number">3</div>
-                <div class="step-icon">
-                    <i class="fas fa-money-bill-wave"></i>
-                </div>
-                <h3 class="step-title">Realiza el pago</h3>
-                <p class="step-description">Realiza una transferencia bancaria por el valor de tus números.</p>
-                <div class="step-arrow">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-            </div>
-            
-            <div class="step-card">
-                <div class="step-number">4</div>
-                <div class="step-icon">
-                    <i class="fab fa-whatsapp"></i>
-                </div>
-                <h3 class="step-title">Confirma tu pago</h3>
-                <p class="step-description">Envía el comprobante de pago por WhatsApp para confirmar.</p>
-                <div class="step-arrow">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-            </div>
-            
-            <div class="step-card">
-                <div class="step-number">5</div>
-                <div class="step-icon">
-                    <i class="fab fa-tiktok"></i>
-                </div>
-                <h3 class="step-title">Sigue la transmisión</h3>
-                <p class="step-description">Sigue nuestro TikTok para ver la transmisión en vivo del sorteo.</p>
-                <a href="https://tiktok.com/@jcaizas" class="step-button">
-                    <i class="fab fa-tiktok"></i> Seguir en TikTok
-                </a>
-            </div>
-        </div>
-        
-        <div class="cta-container">
-            <a href="#form-step-1" class="cta-button">PARTICIPAR AHORA</a>
-        </div>
-    </div>
-</section>
-      <section class="transmision-section">
-
-
-    <div class="container">
-        <div class="transmision-card">
-            <div class="transmision-badge">¡En vivo!</div>
-            
-            <h2 class="transmision-title">EL SORTEO SERÁ TRANSMITIDO EN TIKTOK</h2>
-            
-            <p class="transmision-description">
-                Síguenos en TikTok para no perderte el momento del sorteo de este increíble Suzuki Forsa 1.
-            </p>
-            
-            <div class="transmision-content">
-                <div class="tiktok-profile">
-                    <div class="profile-image-container">
-                        <div class="live-indicator"></div>
-                        <img src="niidea.jpeg" alt="Perfil TikTok" class="profile-image">
+            <div class="container">
+                <h2 class="section-title">¿CÓMO PARTICIPAR?</h2>
+                <p class="section-description">Sigue estos sencillos pasos para aumentar tus posibilidades de ganar</p>
+                
+                <div class="steps-container">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <div class="step-icon">
+                            <i class="fas fa-user-edit"></i>
+                        </div>
+                        <h3 class="step-title">Regístrate</h3>
+                        <p class="step-description">Completa tus datos en el formulario para comenzar el proceso.</p>
+                        <div class="step-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <div class="step-icon">
+                            <i class="fas fa-ticket-alt"></i>
+                        </div>
+                        <h3 class="step-title">Elige tus números</h3>
+                        <p class="step-description">Selecciona hasta 10 números para aumentar tus probabilidades.</p>
+                        <div class="step-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <div class="step-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <h3 class="step-title">Realiza el pago</h3>
+                        <p class="step-description">Realiza una transferencia bancaria por el valor de tus números.</p>
+                        <div class="step-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <div class="step-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <h3 class="step-title">Confirma tu pago</h3>
+                        <p class="step-description">Envía el comprobante de pago por WhatsApp para confirmar.</p>
+                        <div class="step-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">5</div>
+                        <div class="step-icon">
+                            <i class="fab fa-tiktok"></i>
+                        </div>
+                        <h3 class="step-title">Sigue la transmisión</h3>
+                        <p class="step-description">Sigue nuestro TikTok para ver la transmisión en vivo del sorteo.</p>
+                        <a href="https://tiktok.com/@jcaizas" class="step-button">
+                            <i class="fab fa-tiktok"></i> Seguir en TikTok
+                        </a>
                     </div>
                 </div>
                 
-                <div class="transmision-info">
-                    <div class="info-row">
-                        <div class="info-label">Fecha del sorteo</div>
-                        <div class="info-dot"></div>
-                        <div class="info-value">26 de Mayo de 2025 • 19:00</div>
-                    </div>
+                <div class="cta-container">
+                    <a href="#form-step-1" class="cta-button">PARTICIPAR AHORA</a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="transmision-section">
+            <div class="container">
+                <div class="transmision-card">
+                    <div class="transmision-badge">¡En vivo!</div>
                     
-                    <a href="https://tiktok.com/@jcaizas" class="transmision-button">
-                        Seguir en TikTok
-                    </a>
+                    <h2 class="transmision-title">EL SORTEO SERÁ TRANSMITIDO EN TIKTOK</h2>
+                    
+                    <p class="transmision-description">
+                        Síguenos en TikTok para no perderte el momento del sorteo de este increíble Suzuki Forsa 1.
+                    </p>
+                    
+                    <div class="transmision-content">
+                        <div class="tiktok-profile">
+                            <div class="profile-image-container">
+                                <div class="live-indicator"></div>
+                                <img src="imagenes/niidea.jpeg" alt="Perfil TikTok" class="profile-image">
+                            </div>
+                        </div>
+                        
+                        <div class="transmision-info">
+                            <div class="info-row">
+                                <div class="info-label">Fecha del sorteo</div>
+                                <div class="info-dot"></div>
+                                <div class="info-value">30 de Junio de 2025 • 19:00</div>
+                            </div>
+                            
+                            <a href="https://tiktok.com/@jcaizas" class="transmision-button">
+                                Seguir en TikTok
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- footer.component.html -->
+        <footer class="site-footer">
+            <div class="footer-wave">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                    <path fill="#1e3160" fill-opacity="1" d="M0,64L48,80C96,96,192,128,288,138.7C384,149,480,139,576,128C672,117,768,107,864,122.7C960,139,1056,181,1152,170.7C1248,160,1344,96,1392,64L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+                </svg>
+            </div>
+            
+            <div class="footer-main">
+                <div class="container">
+                    <div class="footer-content">
+                        <div class="footer-logo">
+                            <img src="imagenes/LOGO 2 COLORES-01.png" alt="Logo de JCAIZAS">
+                            <h3>JCAIZAS</h3>
+                        </div>
+                        
+                        <div class="footer-links">
+                            <div class="links-column">
+                                <h4>Navegación</h4>
+                                <ul>
+                                    <li><a href="#">Inicio</a></li>
+                                   
+                                </ul>
+                            </div>
+                            
+                            <div class="links-column">
+                            
+                            </div>
+                            
+                           
+                            
+                            <div class="links-column contact-column">
+                                <h4>Contacto</h4>
+                                <ul>
+                                    <li>
+                                        <i class="fas fa-phone"></i> 
+                                        <span> 0983095560 / 098 621 2699</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-envelope"></i> 
+                                        <span>jcaizasmatriz@gmail.com</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-    
-        </div>
-    </div>
-</section>
-        
-       <!-- footer.component.html -->
-<footer class="site-footer">
-  <div class="footer-wave">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-      <path fill="#1e3160" fill-opacity="1" d="M0,64L48,80C96,96,192,128,288,138.7C384,149,480,139,576,128C672,117,768,107,864,122.7C960,139,1056,181,1152,170.7C1248,160,1344,96,1392,64L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-    </svg>
-  </div>
-  
-  <div class="footer-main">
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-logo">
-          <img src="LOGO 2 COLORES-01.png" alt="Logo de JCAIZAS">
-          <h3>JCAIZAS</h3>
-        </div>
-        
-        <div class="footer-links">
-          <div class="links-column">
-            <h4>Navegación</h4>
-            <ul>
-              <li><a href="#">Inicio</a></li>
-              <li><a href="#">Subastas</a></li>
-              <li><a href="#">Cómo Funciona</a></li>
-              <li><a href="#">Blog</a></li>
-              <li><a href="#">Contacto</a></li>
-            </ul>
-          </div>
-          
-          <div class="links-column">
-            <h4>Categorías</h4>
-            <ul>
-              <li><a href="#">Autos</a></li>
-              <li><a href="#">SUVs</a></li>
-              <li><a href="#">Camionetas</a></li>
-              <li><a href="#">Motocicletas</a></li>
-              <li><a href="#">Vehículos Comerciales</a></li>
-            </ul>
-          </div>
-          
-          <div class="links-column">
-            <h4>Legal</h4>
-            <ul>
-              <li><a href="#">Términos y Condiciones</a></li>
-              <li><a href="#">Política de Privacidad</a></li>
-              <li><a href="#">Cookies</a></li>
-              <li><a href="#">Política de Reembolso</a></li>
-              <li><a href="#">Licencias</a></li>
-            </ul>
-          </div>
-          
-          <div class="links-column contact-column">
-            <h4>Contacto</h4>
-            <ul>
-              <li>
-                <i class="fas fa-phone"></i> 
-                <span>+593 99 123 4567</span>
-              </li>
-              <li>
-                <i class="fas fa-envelope"></i> 
-                <span>info@jcaizas.com</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <div class="footer-bottom">
-    <div class="container">
-      <div class="footer-bottom-content">
-        <div class="social-icons">
-          <a href="#" aria-label="Facebook" class="social-icon">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a href="#" aria-label="Instagram" class="social-icon">
-            <i class="fab fa-instagram"></i>
-          </a>
-          <a href="#" aria-label="Twitter" class="social-icon">
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a href="#" aria-label="YouTube" class="social-icon">
-            <i class="fab fa-youtube"></i>
-          </a>
-          <a href="#" aria-label="LinkedIn" class="social-icon">
-            <i class="fab fa-linkedin-in"></i>
-          </a>
-        </div>
-        
-        <div class="copyright">
-          <p>&copy; 2025 JCAIZAS. Todos los derechos reservados.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="footer-bottom-content">
+                        <div class="social-icons">
+                            <a href="https://www.facebook.com/x3Jcaiza?locale=es_LA" aria-label="Facebook" class="social-icon">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://www.instagram.com/jcaizas1/?hl=es-la" aria-label="Instagram" class="social-icon">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                          
+                           
+                        </div>
+                        
+                        <div class="copyright">
+                            <p>&copy; 2025 JCAIZAS. Todos los derechos reservados.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 
-    <!-- Panel de administración (oculto) -->
-    <div class="admin-panel" id="admin-panel" style="display: none;">
-        <div class="container">
-            <h2 class="section-title">PANEL DE ADMINISTRACIÓN</h2>
+    <!-- Modal de Términos y Condiciones -->
+    <div id="terms-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Términos y Condiciones del Sorteo</h2>
             
-            <div class="login-form" id="login-form">
-                <div class="form-group">
-                    <label for="password">Contraseña:</label>
-                    <input type="password" id="password">
-                </div>
-                <button id="btn-login" class="btn-primary">Ingresar</button>
-            </div>
+            <p><strong>Fecha de última actualización:</strong> 19 de mayo de 2025</p>
             
-            <div class="admin-content" id="admin-content" style="display: none;">
-                <h3>Números reservados</h3>
-                <div class="reservados-list" id="reservados-list">
-                    <!-- Lista de números reservados generada por JavaScript -->
-                </div>
-            </div>
+            <p>Los presentes términos y condiciones regulan la participación en el sorteo de un vehículo Suzuki Forsa 1 (en adelante, "el Sorteo") organizado por JCAIZAS (en adelante, "el Organizador").</p>
+            
+            <h3>1. Participación</h3>
+            <p>Para participar en el Sorteo, los interesados deberán:</p>
+            <ul>
+                <li>Ser mayores de 18 años.</li>
+                <li>Completar el formulario de registro con datos verídicos y actualizados.</li>
+                <li>Seleccionar al menos un número de la rifa (máximo 10 números por persona).</li>
+                <li>Realizar el pago correspondiente mediante transferencia bancaria.</li>
+                <li>Enviar el comprobante de pago a través de WhatsApp para confirmar la participación.</li>
+            </ul>
+            
+            <h3>2. Precio y Forma de Pago</h3>
+            <p>El precio por cada número es de $3.00 (tres dólares americanos). El pago deberá realizarse mediante transferencia bancaria a la cuenta indicada en la página web. La reserva del número quedará confirmada únicamente después de verificar el pago.</p>
+            
+            <h3>3. Selección del Ganador</h3>
+            <p>El sorteo se realizará el día 30 de junio de 2025 a las 19:00 horas mediante transmisión en vivo a través de la cuenta de TikTok @jcaizas. La selección del ganador se realizará mediante un sistema aleatorio transparente durante la transmisión en vivo.</p>
+            
+            <h3>4. Premio</h3>
+            <p>El premio consiste en un vehículo Suzuki Forsa 1, con las siguientes características:</p>
+            <ul>
+                <li>Vehículo usado en buen estado.</li>
+                <li>Documentos en regla y al día.</li>
+                <li>Entrega inmediata después de la verificación del ganador.</li>
+            </ul>
+            <p>El premio no incluye gastos de transferencia de dominio, seguros adicionales, ni cualquier otro gasto que no esté expresamente indicado.</p>
+            
+            <h3>5. Entrega del Premio</h3>
+            <p>La entrega del premio se realizará dentro de los 15 días siguientes a la celebración del sorteo. El ganador deberá presentar su documento de identidad y el comprobante de pago original para reclamar el premio. En caso de que el ganador no se presente en el plazo establecido, el Organizador se reserva el derecho de realizar un nuevo sorteo.</p>
+            
+            <h3>6. Limitación de Responsabilidad</h3>
+            <p>El Organizador no será responsable de:</p>
+            <ul>
+                <li>Posibles defectos de fabricación o funcionamiento del vehículo no cubiertos por la garantía original del fabricante.</li>
+                <li>Problemas técnicos o interrupciones en la transmisión del sorteo.</li>
+                <li>Datos incorrectos proporcionados por los participantes.</li>
+                <li>Incumplimiento de los requisitos para participar o reclamar el premio.</li>
+            </ul>
+            
+            <h3>7. Modificaciones</h3>
+            <p>El Organizador se reserva el derecho de modificar, prorrogar, cancelar o suspender el Sorteo por causas de fuerza mayor, comprometiéndose a comunicar cualquier cambio con la mayor antelación posible a través de la página web y redes sociales.</p>
+            
+            <h3>8. Aceptación de los Términos</h3>
+            <p>La participación en el Sorteo implica la aceptación plena e incondicional de estos términos y condiciones en su totalidad. El incumplimiento de cualquiera de estas condiciones podrá dar lugar a la descalificación del participante.</p>
+            
+            <h3>9. Legislación Aplicable</h3>
+            <p>El presente Sorteo se rige por la legislación de Ecuador. Cualquier controversia será resuelta por los tribunales competentes de acuerdo con la legislación aplicable.</p>
+            
+            <h3>10. Contacto</h3>
+            <p>Para cualquier consulta relacionada con el Sorteo, los participantes pueden contactar con el Organizador a través del correo electrónico: info@jcaizas.com</p>
+        </div>
+    </div>
+
+    <!-- Modal de Política de Privacidad -->
+    <div id="privacy-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Política de Privacidad</h2>
+            
+            <p><strong>Fecha de última actualización:</strong> 19 de mayo de 2025</p>
+            
+            <p>JCAIZAS (en adelante, "nosotros" o "el Organizador") se compromete a proteger y respetar su privacidad. Esta Política establece la base sobre la cual procesamos cualquier dato personal que recopilamos de usted o que nos proporciona en relación con su participación en el sorteo de un vehículo Suzuki Forsa 1.</p>
+            
+            <h3>1. Recopilación de Información</h3>
+            <p>Recopilamos los siguientes datos personales:</p>
+            <ul>
+                <li><strong>Información de contacto:</strong> nombre completo, número de teléfono y dirección de correo electrónico.</li>
+                <li><strong>Información de pago:</strong> no almacenamos datos de tarjetas de crédito ni cuentas bancarias, solo registramos la confirmación de pago recibida.</li>
+                <li><strong>Números seleccionados:</strong> para asignar correctamente su participación en el sorteo.</li>
+                <li><strong>Fecha y hora:</strong> registramos cuándo se realizó la reserva para gestionar adecuadamente el proceso.</li>
+            </ul>
+            
+            <h3>2. Uso de la Información</h3>
+            <p>Utilizamos sus datos personales para los siguientes fines:</p>
+            <ul>
+                <li>Gestionar su participación en el sorteo.</li>
+                <li>Comunicarnos con usted respecto a su reserva, confirmación de pago y cualquier información relevante sobre el sorteo.</li>
+                <li>Verificar su identidad en caso de resultar ganador.</li>
+                <li>Cumplir con nuestras obligaciones legales y regulatorias.</li>
+                <li>Resolver disputas y hacer cumplir nuestros términos y condiciones.</li>
+            </ul>
+            
+            <h3>3. Base Legal para el Procesamiento</h3>
+            <p>Procesamos sus datos personales con las siguientes bases legales:</p>
+            <ul>
+                <li><strong>Consentimiento:</strong> usted ha dado su consentimiento expreso para el procesamiento de sus datos al participar en el sorteo.</li>
+                <li><strong>Ejecución de un contrato:</strong> el procesamiento es necesario para la ejecución del acuerdo de participación en el sorteo.</li>
+                <li><strong>Intereses legítimos:</strong> el procesamiento es necesario para nuestros intereses legítimos, como la prevención de fraudes y la administración eficiente del sorteo.</li>
+                <li><strong>Obligación legal:</strong> el procesamiento es necesario para cumplir con nuestras obligaciones legales.</li>
+            </ul>
+            
+            <h3>4. Compartir Información</h3>
+            <p>No vendemos, alquilamos ni compartimos sus datos personales con terceros, excepto:</p>
+            <ul>
+                <li>Cuando sea requerido por ley o proceso legal.</li>
+                <li>Para proteger nuestros derechos o propiedad.</li>
+                <li>En caso de reorganización, fusión o venta de nuestra empresa.</li>
+            </ul>
+            
+            <h3>5. Seguridad de los Datos</h3>
+            <p>Implementamos medidas técnicas y organizativas apropiadas para proteger sus datos personales contra el procesamiento no autorizado o ilegal y contra la pérdida, destrucción o daño accidental. Sin embargo, la transmisión de información a través de Internet no es completamente segura, por lo que no podemos garantizar la seguridad de los datos transmitidos a nuestro sitio.</p>
+            
+            <h3>6. Retención de Datos</h3>
+            <p>Conservaremos sus datos personales solo durante el tiempo necesario para cumplir con los fines para los que los recopilamos, incluido el cumplimiento de requisitos legales, contables o de informes. En general, mantendremos sus datos durante un periodo de 2 años después de la finalización del sorteo.</p>
+            
+            <h3>7. Sus Derechos</h3>
+            <p>Bajo ciertas circunstancias, usted tiene los siguientes derechos con respecto a sus datos personales:</p>
+            <ul>
+                <li><strong>Acceso:</strong> solicitar una copia de sus datos personales.</li>
+                <li><strong>Rectificación:</strong> corregir datos inexactos o incompletos.</li>
+                <li><strong>Eliminación:</strong> solicitar la eliminación de sus datos personales cuando ya no sean necesarios.</li>
+                <li><strong>Restricción:</strong> solicitar la limitación del procesamiento de sus datos.</li>
+                <li><strong>Portabilidad:</strong> recibir sus datos en un formato estructurado y de uso común.</li>
+                <li><strong>Objeción:</strong> oponerse al procesamiento de sus datos.</li>
+                <li><strong>Retirar el consentimiento:</strong> retirar su consentimiento en cualquier momento.</li>
+            </ul>
+            
+            <h3>8. Cookies y Tecnologías Similares</h3>
+            <p>Nuestro sitio web utiliza cookies y tecnologías similares para mejorar su experiencia. Puede configurar su navegador para rechazar todas o algunas cookies, o para que le avise cuando los sitios web establecen o acceden a las cookies.</p>
+            
+            <h3>9. Cambios a Esta Política</h3>
+            <p>Podemos actualizar esta Política de Privacidad ocasionalmente. La versión actualizada se publicará en nuestro sitio web con la fecha de última actualización revisada. Le recomendamos que revise periódicamente esta Política para mantenerse informado sobre cómo protegemos su información.</p>
+            
+            <h3>10. Contacto</h3>
+            <p>Si tiene alguna pregunta sobre esta Política de Privacidad o el manejo de sus datos personales, contáctenos a través del correo electrónico: info@jcaizas.com</p>
         </div>
     </div>
 
@@ -518,5 +662,6 @@
     
     <!-- Script principal -->
     <script src="script.js"></script>
+    
 </body>
 </html>

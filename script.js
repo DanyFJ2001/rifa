@@ -1,17 +1,15 @@
-
-
 // script.js
 document.addEventListener('DOMContentLoaded', function() {
-    // Configuración de Firebase
-    // IMPORTANTE: Reemplaza estos valores con los de tu proyecto Firebase
+    // Configuración de Firebase con tus credenciales
     const firebaseConfig = {
-        apiKey: "TU_API_KEY",
-        authDomain: "tu-proyecto.firebaseapp.com",
-        databaseURL: "https://tu-proyecto-default-rtdb.firebaseio.com",
-        projectId: "tu-proyecto",
-        storageBucket: "tu-proyecto.appspot.com",
-        messagingSenderId: "TU_MESSAGING_SENDER_ID",
-        appId: "TU_APP_ID"
+        apiKey: "AIzaSyDJ9ZWlv3kFmxVcul_QF8Yh8fkgiMny4r8",
+        authDomain: "rifa-5180c.firebaseapp.com",
+        databaseURL: "https://rifa-5180c-default-rtdb.firebaseio.com", // URL de la base de datos en tiempo real
+        projectId: "rifa-5180c",
+        storageBucket: "rifa-5180c.firebasestorage.app",
+        messagingSenderId: "12088707558",
+        appId: "1:12088707558:web:b8b087390a7d6cb7ea6e27",
+        measurementId: "G-X8GE4ENCDV"
     };
     
     // Inicializar Firebase
@@ -42,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Limitar a 10 números seleccionados
     const MAX_NUMEROS = 10;
-    const PRECIO_NUMERO = 10;
+    const PRECIO_NUMERO = 3.00; // Precio por número
     
     // Inicializar cuenta regresiva
     initCountdown();
@@ -53,6 +51,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Escuchar cambios en la base de datos
     numerosRef.on('value', (snapshot) => {
         actualizarNumeros(snapshot.val());
+        
+        // Actualizar la barra de progreso
+        actualizarBarraProgreso(snapshot.val());
     });
     
     // Event Listeners
@@ -64,6 +65,18 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (!nombre || !telefono || !email) {
             alert('Por favor, completa todos los campos');
+            return;
+        }
+        
+        // Validación básica de email
+        if (!validarEmail(email)) {
+            alert('Por favor, ingresa un email válido');
+            return;
+        }
+        
+        // Validación básica de teléfono
+        if (!validarTelefono(telefono)) {
+            alert('Por favor, ingresa un número de teléfono válido (ejemplo: 0991234567)');
             return;
         }
         
@@ -97,8 +110,18 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Reservar números en Firebase
-        reservarNumeros()
+        // Verificar que los números siguen disponibles
+        verificarNumerosDisponibles()
+            .then(disponibles => {
+                if (!disponibles) {
+                    // Si algún número ya no está disponible, actualizar la interfaz
+                    actualizarNumerosSeleccionados();
+                    throw new Error('Algunos números ya no están disponibles. Por favor, selecciona otros.');
+                }
+                
+                // Si todos están disponibles, reservarlos
+                return reservarNumeros();
+            })
             .then(() => {
                 // Calcular total a pagar
                 const total = datosUsuario.numerosSeleccionados.length * PRECIO_NUMERO;
@@ -112,10 +135,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     formStep3.style.animation = 'fadeIn 0.3s forwards';
                 }, 300);
             })
-            
-.catch(error => {
+            .catch(error => {
                 console.error("Error al reservar números:", error);
-                alert('Error al reservar números. Inténtalo de nuevo.');
+                alert(error.message || 'Error al reservar números. Inténtalo de nuevo.');
             });
     });
     
@@ -123,11 +145,22 @@ document.addEventListener('DOMContentLoaded', function() {
         enviarWhatsapp();
     });
     
+    // Funciones para validación
+    function validarEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+    
+    function validarTelefono(telefono) {
+        // Validación para números de Ecuador (09 seguido de 8 dígitos)
+        const re = /^(09|9)[0-9]{8}$/;
+        return re.test(telefono);
+    }
+    
     // Funciones
     function initCountdown() {
         // Fecha del sorteo (ajustar según necesidades)
-        const countDownDate = new Date();
-        countDownDate.setDate(countDownDate.getDate() + 7); // Una semana desde hoy
+       const countDownDate = new Date("June 30, 2025 19:00:00").getTime(); // Usa la fecha que aparece en tu HTML
         
         // Actualizar cada segundo
         const x = setInterval(function() {
@@ -160,6 +193,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Función para actualizar dígitos con animación
     function updateCountdownDigit(id, value) {
         const element = document.getElementById(id);
+        if (!element) return;
+        
         const currentValue = element.textContent;
         const newValue = value.toString().padStart(2, '0');
         
@@ -188,19 +223,37 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             gridNumeros.appendChild(numeroElement);
-            
-            // Inicializar en Firebase si no existe
-            numerosRef.child(i).once('value', snapshot => {
-                if (!snapshot.exists()) {
-                    numerosRef.child(i).set({
+        }
+        
+        // Inicializar todos los números en Firebase si no existen
+        numerosRef.once('value', snapshot => {
+            const data = snapshot.val();
+            if (!data) {
+                // Si no hay datos, inicializa todos los números
+                const batch = {};
+                for (let i = 1; i <= 100; i++) {
+                    batch[i] = {
                         estado: 'libre',
                         usuario: null,
                         telefono: null,
                         email: null
-                    });
+                    };
                 }
-            });
-        }
+                numerosRef.set(batch);
+            } else {
+                // Si ya hay datos, verifica que todos los números existan
+                for (let i = 1; i <= 100; i++) {
+                    if (!data[i]) {
+                        numerosRef.child(i).set({
+                            estado: 'libre',
+                            usuario: null,
+                            telefono: null,
+                            email: null
+                        });
+                    }
+                }
+            }
+        });
     }
     
     function actualizarNumeros(data) {
@@ -210,19 +263,51 @@ document.addEventListener('DOMContentLoaded', function() {
         for (const num in data) {
             const numeroElement = document.querySelector(`.numero[data-numero="${num}"]`);
             if (numeroElement) {
-                // Limpiar clases previas
+                // Limpiar clases previas de estado
                 numeroElement.classList.remove('libre', 'reservado', 'pagado');
                 
                 // Añadir clase según estado
                 numeroElement.classList.add(data[num].estado);
                 
-                // Deshabilitar selección si no está libre
+                // Activar/desactivar interacción según estado
                 if (data[num].estado !== 'libre') {
-                    numeroElement.removeEventListener('click', function() {
-                        seleccionarNumero(this);
-                    });
                     numeroElement.style.cursor = 'not-allowed';
+                } else {
+                    numeroElement.style.cursor = 'pointer';
                 }
+            }
+        }
+    }
+    
+    function actualizarBarraProgreso(data) {
+        if (!data) return;
+        
+        let reservados = 0;
+        let pagados = 0;
+        
+        // Contar números reservados y pagados
+        for (const num in data) {
+            if (data[num].estado === 'reservado') reservados++;
+            if (data[num].estado === 'pagado') pagados++;
+        }
+        
+        // Calcular porcentaje total vendido (reservados + pagados)
+        const total = 100; // Total de números
+        const vendidos = reservados + pagados;
+        const porcentaje = (vendidos / total) * 100;
+        
+        // Actualizar el ancho de la barra de progreso
+        const progressBar = document.querySelector('.progreso');
+        const progressMarker = document.querySelector('.progreso-marker');
+        
+        if (progressBar && progressMarker) {
+            progressBar.style.width = `${porcentaje}%`;
+            progressMarker.style.left = `${porcentaje}%`;
+            
+            // Actualizar texto del porcentaje
+            const porcentajeText = document.querySelector('.porcentaje-text strong');
+            if (porcentajeText) {
+                porcentajeText.textContent = `${porcentaje.toFixed(2)}%`;
             }
         }
     }
@@ -230,6 +315,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function seleccionarNumero(elemento) {
         // Obtener número
         const numero = elemento.getAttribute('data-numero');
+        
+        // Verificar si el número está libre
+        if (elemento.classList.contains('reservado') || elemento.classList.contains('pagado')) {
+            alert('Este número ya no está disponible');
+            return;
+        }
         
         // Verificar si ya está seleccionado
         if (elemento.classList.contains('selected')) {
@@ -260,12 +351,67 @@ document.addEventListener('DOMContentLoaded', function() {
         datosUsuario.numerosSeleccionados.sort((a, b) => a - b);
         
         // Actualizar inputs
-        selectedList.textContent = datosUsuario.numerosSeleccionados.join(', ');
-        numeroSeleccionadoInput.value = datosUsuario.numerosSeleccionados.join(', ');
+        if (selectedList) {
+            selectedList.textContent = datosUsuario.numerosSeleccionados.join(', ');
+        }
+        if (numeroSeleccionadoInput) {
+            numeroSeleccionadoInput.value = datosUsuario.numerosSeleccionados.join(', ');
+        }
         
         // Calcular total
         const total = datosUsuario.numerosSeleccionados.length * PRECIO_NUMERO;
-        totalPagar.textContent = total.toFixed(2);
+        if (totalPagar) {
+            totalPagar.textContent = total.toFixed(2);
+        }
+    }
+    
+    function verificarNumerosDisponibles() {
+        return numerosRef.once('value')
+            .then(snapshot => {
+                const data = snapshot.val();
+                if (!data) return true;
+                
+                let todosDisponibles = true;
+                const numerosNoDisponibles = [];
+                
+                datosUsuario.numerosSeleccionados.forEach(numero => {
+                    if (data[numero] && data[numero].estado !== 'libre') {
+                        todosDisponibles = false;
+                        numerosNoDisponibles.push(numero);
+                        
+                        // Quitar de la selección del usuario
+                        const index = datosUsuario.numerosSeleccionados.indexOf(numero);
+                        if (index > -1) {
+                            datosUsuario.numerosSeleccionados.splice(index, 1);
+                        }
+                    }
+                });
+                
+                if (!todosDisponibles) {
+                    alert(`Los números ${numerosNoDisponibles.join(', ')} ya no están disponibles y han sido quitados de tu selección.`);
+                }
+                
+                return todosDisponibles;
+            });
+    }
+    
+    function actualizarNumerosSeleccionados() {
+        // Limpiar todas las selecciones
+        const numerosElements = document.querySelectorAll('.numero');
+        numerosElements.forEach(elem => {
+            elem.classList.remove('selected');
+        });
+        
+        // Re-aplicar selecciones actualizadas
+        datosUsuario.numerosSeleccionados.forEach(numero => {
+            const elem = document.querySelector(`.numero[data-numero="${numero}"]`);
+            if (elem) {
+                elem.classList.add('selected');
+            }
+        });
+        
+        // Actualizar lista
+        actualizarListaSeleccionados();
     }
     
     function reservarNumeros() {
@@ -284,11 +430,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function enviarWhatsapp() {
-        // Número de teléfono del organizador (reemplazar con el número correcto)
-        const telefonoOrganizador = "1234567890";
+        // Número de teléfono del organizador
+        const telefonoOrganizador = "593991234567"; // Ajusta este número según necesites
+        
+        // Calcular total a pagar
+        const total = datosUsuario.numerosSeleccionados.length * PRECIO_NUMERO;
         
         // Construir mensaje
-        const mensaje = `¡Hola! He reservado los siguientes números para la rifa: ${datosUsuario.numerosSeleccionados.join(', ')}. Mi nombre es ${datosUsuario.nombre}, mi teléfono es ${datosUsuario.telefono} y mi email es ${datosUsuario.email}. Adjunto comprobante de pago.`;
+        const mensaje = `¡Hola! He reservado los siguientes números para la rifa del Suzuki Forsa 1: ${datosUsuario.numerosSeleccionados.join(', ')}. 
+Mi nombre es ${datosUsuario.nombre}, 
+Mi teléfono es ${datosUsuario.telefono} 
+Mi email es ${datosUsuario.email}. 
+Total a pagar: $${total.toFixed(2)}. 
+Adjunto comprobante de pago.`;
         
         // Construir URL de WhatsApp
         const whatsappUrl = `https://wa.me/${telefonoOrganizador}?text=${encodeURIComponent(mensaje)}`;
@@ -297,80 +451,101 @@ document.addEventListener('DOMContentLoaded', function() {
         window.open(whatsappUrl, '_blank');
     }
     
-    // Panel de administración (oculto por defecto)
-    // Para acceder: presionar Alt+A
-    let adminMode = false;
+    // Funcionalidad del carrusel mejorado
+    const slides = document.querySelectorAll('.carrusel-slide');
+    const indicators = document.querySelectorAll('.indicador');
+    const prevBtn = document.querySelector('.carrusel-prev');
+    const nextBtn = document.querySelector('.carrusel-next');
     
-    document.addEventListener('keydown', function(e) {
-        if (e.altKey && e.key === 'a') {
-            toggleAdminMode();
-        }
-    });
+    let currentIndex = 0;
+    let slideInterval;
     
-    function toggleAdminMode() {
-        adminMode = !adminMode;
+    // Inicializar el carrusel
+    initCarousel();
+    
+    function initCarousel() {
+        if (!slides.length) return;
         
-        if (adminMode) {
-            const password = prompt("Ingrese la contraseña de administrador:");
-            if (password === "admin123") { // Cambiar a una contraseña segura
-                alert("Modo administrador activado. Ahora puedes hacer clic en los números para cambiar su estado.");
-                // Añadir eventos para cambiar estado
-                const numeros = document.querySelectorAll('.numero');
-                numeros.forEach(num => {
-                    num.addEventListener('contextmenu', adminChangeStatus);
-                });
-                
-                // Prevenir menú contextual
-                document.addEventListener('contextmenu', function(e) {
-                    e.preventDefault();
-                });
-            } else {
-                adminMode = false;
-                alert("Contraseña incorrecta.");
-            }
-        } else {
-            // Quitar eventos de administrador
-            const numeros = document.querySelectorAll('.numero');
-            numeros.forEach(num => {
-                num.removeEventListener('contextmenu', adminChangeStatus);
-            });
-            
-            // Restaurar menú contextual
-            document.removeEventListener('contextmenu', function(e) {
-                e.preventDefault();
-            });
-            
-            alert("Modo administrador desactivado.");
+        // Preparar las posiciones iniciales de los slides
+        updateSlides();
+        
+        // Iniciar el deslizamiento automático
+        startAutoSlide();
+        
+        // Agregar eventos a los controles
+        if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+        if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+        
+        // Eventos para los indicadores
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => goToSlide(index));
+        });
+        
+        // Pausar la reproducción automática al pasar el mouse por encima
+        const carruselPremio = document.querySelector('.carrusel-premio');
+        if (carruselPremio) {
+            carruselPremio.addEventListener('mouseenter', stopAutoSlide);
+            carruselPremio.addEventListener('mouseleave', startAutoSlide);
         }
     }
     
-    function adminChangeStatus(e) {
-        e.preventDefault();
+    function updateSlides() {
+        if (!slides.length) return;
         
-        if (!adminMode) return;
+        slides.forEach((slide, index) => {
+            slide.classList.remove('active', 'prev');
+            
+            if (index === currentIndex) {
+                slide.classList.add('active');
+            } else if (index === getPrevIndex()) {
+                slide.classList.add('prev');
+            }
+        });
         
-        const numero = this.getAttribute('data-numero');
-        const options = ["libre", "reservado", "pagado"];
-        
-        const currentState = this.classList.contains('libre') ? 'libre' : 
-                            this.classList.contains('reservado') ? 'reservado' : 'pagado';
-        
-        const currentIndex = options.indexOf(currentState);
-        const nextIndex = (currentIndex + 1) % options.length;
-        const newState = options[nextIndex];
-        
-        // Actualizar en Firebase
-        numerosRef.child(numero).update({
-            estado: newState
-        })
-        .then(() => {
-            console.log(`Número ${numero} actualizado a ${newState}`);
-        })
-        .catch(error => {
-            console.error(`Error al actualizar número ${numero}:`, error);
+        // Actualizar indicadores
+        indicators.forEach((indicator, index) => {
+            indicator.classList.toggle('active', index === currentIndex);
         });
     }
     
+    function nextSlide() {
+        currentIndex = getNextIndex();
+        updateSlides();
+    }
+    
+    function prevSlide() {
+        currentIndex = getPrevIndex();
+        updateSlides();
+    }
+    
+    function goToSlide(index) {
+        currentIndex = index;
+        updateSlides();
+        resetAutoSlide();
+    }
+    
+    function getNextIndex() {
+        return (currentIndex + 1) % slides.length;
+    }
+    
+    function getPrevIndex() {
+        return (currentIndex - 1 + slides.length) % slides.length;
+    }
+    
+    function startAutoSlide() {
+        stopAutoSlide(); // Evitar múltiples intervalos
+        slideInterval = setInterval(nextSlide, 5000);
+    }
+    
+    function stopAutoSlide() {
+        clearInterval(slideInterval);
+    }
+    
+    function resetAutoSlide() {
+        stopAutoSlide();
+        startAutoSlide();
+    }
+
     // Añadir animaciones CSS adicionales
     const style = document.createElement('style');
     style.innerHTML = `
@@ -391,101 +566,46 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.head.appendChild(style);
 });
-// Funcionalidad del carrusel mejorado
+// Funcionalidad para los modales
 document.addEventListener('DOMContentLoaded', function() {
-  const slides = document.querySelectorAll('.carrusel-slide');
-  const indicators = document.querySelectorAll('.indicador');
-  const prevBtn = document.querySelector('.carrusel-prev');
-  const nextBtn = document.querySelector('.carrusel-next');
-  
-  let currentIndex = 0;
-  let slideInterval;
-  
-  // Inicializar el carrusel
-  initCarousel();
-  
-  function initCarousel() {
-    // Preparar las posiciones iniciales de los slides
-    updateSlides();
-    
-    // Iniciar el deslizamiento automático
-    startAutoSlide();
-    
-    // Agregar eventos a los controles
-    prevBtn.addEventListener('click', prevSlide);
-    nextBtn.addEventListener('click', nextSlide);
-    
-    // Eventos para los indicadores
-    indicators.forEach((indicator, index) => {
-      indicator.addEventListener('click', () => goToSlide(index));
+    // Referencias a elementos de modales
+    const termsModal = document.getElementById('terms-modal');
+    const privacyModal = document.getElementById('privacy-modal');
+    const openTermsBtn = document.getElementById('open-terms-modal');
+    const openPrivacyBtn = document.getElementById('open-privacy-modal');
+    const closeButtons = document.querySelectorAll('.close-modal');
+
+    // Abrir modal de términos
+    if (openTermsBtn) {
+        openTermsBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (termsModal) termsModal.style.display = 'block';
+        });
+    }
+
+    // Abrir modal de privacidad
+    if (openPrivacyBtn) {
+        openPrivacyBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (privacyModal) privacyModal.style.display = 'block';
+        });
+    }
+
+    // Cerrar modales con el botón X
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            if (termsModal) termsModal.style.display = 'none';
+            if (privacyModal) privacyModal.style.display = 'none';
+        });
     });
-    
-    // Pausar la reproducción automática al pasar el mouse por encima
-    document.querySelector('.carrusel-premio').addEventListener('mouseenter', stopAutoSlide);
-    document.querySelector('.carrusel-premio').addEventListener('mouseleave', startAutoSlide);
-  }
-  
-  function updateSlides() {
-    slides.forEach((slide, index) => {
-      slide.classList.remove('active', 'prev');
-      
-      if (index === currentIndex) {
-        slide.classList.add('active');
-      } else if (index === getPrevIndex()) {
-        slide.classList.add('prev');
-      }
+
+    // Cerrar modales al hacer clic fuera del contenido
+    window.addEventListener('click', function(event) {
+        if (event.target === termsModal) {
+            termsModal.style.display = 'none';
+        }
+        if (event.target === privacyModal) {
+            privacyModal.style.display = 'none';
+        }
     });
-    
-    // Actualizar indicadores
-    indicators.forEach((indicator, index) => {
-      indicator.classList.toggle('active', index === currentIndex);
-    });
-  }
-  
-  function nextSlide() {
-    currentIndex = getNextIndex();
-    updateSlides();
-  }
-  
-  function prevSlide() {
-    currentIndex = getPrevIndex();
-    updateSlides();
-  }
-  
-  function goToSlide(index) {
-    currentIndex = index;
-    updateSlides();
-    resetAutoSlide();
-  }
-  
-  function getNextIndex() {
-    return (currentIndex + 1) % slides.length;
-  }
-  
-  function getPrevIndex() {
-    return (currentIndex - 1 + slides.length) % slides.length;
-  }
-  
-  function startAutoSlide() {
-    stopAutoSlide(); // Evitar múltiples intervalos
-    slideInterval = setInterval(nextSlide, 5000);
-  }
-  
-  function stopAutoSlide() {
-    clearInterval(slideInterval);
-  }
-  
-  function resetAutoSlide() {
-    stopAutoSlide();
-    startAutoSlide();
-  }
-  
-  // Efecto visual para la barra de progreso
-  const progressMarker = document.querySelector('.progreso-marker');
-  const progressBar = document.querySelector('.progreso');
-  const progressValue = 0; // Mantenemos en 0% como solicitaste
-  
-  // Configurar la barra de progreso
-  progressBar.style.width = progressValue + '%';
-  progressMarker.style.left = progressValue + '%';
 });
