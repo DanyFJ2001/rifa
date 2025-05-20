@@ -88,204 +88,458 @@ body {
 }
         
 /* Estilos para el menú de navegación */
-.nav-links {
-    display: flex;
-    list-style: none;
-}
-        
-.nav-links li {
-    padding: 0 15px;
-}
-        
-.nav-links a {
-    color: #333;
-    text-decoration: none;
-    font-size: 16px;
-    transition: color 0.3s ease;
-    position: relative;
-    padding: 5px 0;
-}
-        
-.nav-links a:hover {
-    color: var(--color-secondary);
-}
 
-/* Efecto de línea animada debajo de los enlaces */
-.nav-links a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -2px;
-    left: 0;
-    background-color: var(--color-secondary);
-    transition: width 0.3s ease, transform 0.3s ease;
-    transform-origin: left;
-    opacity: 0;
-}
-
-.nav-links a:hover::after {
-    width: 100%;
-    opacity: 1;
-    transform: scaleX(1);
-}
-
-/* Animación para el elemento activo */
-.nav-links a.active {
-    color: var(--color-secondary);
-    font-weight: 600;
-}
-
-.nav-links a.active::after {
-    width: 100%;
-    opacity: 1;
-    background-color: var(--color-secondary);
-}
+ @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap');
         
-/* Estilo para el menú desplegable */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
         
-.dropdown-content {
-    display: block;
-    position: absolute;
-    background-color: white;
-    min-width: 180px;
-    box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
-    z-index: 1;
-    border-radius: 8px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(15px);
-    transition: all 0.3s ease, transform 0.3s ease;
-    overflow: hidden;
-}
+        body {
+            background-color: #f5f5f5;
+        }
         
-.dropdown-content a {
-    color: #333;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    transition: all 0.2s ease;
-    border-left: 3px solid transparent;
-}
+        nav {
+            width: 100%;
+            background: linear-gradient(135deg, #ff3e00, #ff5233, #ff7043);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: visible; /* Cambiado de hidden a visible para permitir que el GIF sobresalga */
+        }
         
-.dropdown-content a:hover {
-    background-color: #f9f9f9;
-    border-left: 3px solid var(--color-secondary);
-    padding-left: 20px;
-    color: var(--color-secondary);
-}
+        nav::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: skewX(-25deg);
+            animation: shine 3s infinite;
+        }
         
-.dropdown:hover .dropdown-content {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(5px);
-}
+        @keyframes shine {
+            0% {
+                left: -100%;
+            }
+            50% {
+                left: 100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
         
-.dropdown .nav-link::after {
-    content: " ▼";
-    font-size: 10px;
-    margin-left: 5px;
-    transition: transform 0.3s ease;
-}
-
-.dropdown:hover .nav-link::after {
-    transform: rotate(180deg);
-}
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
         
-/* Estilo para el botón Iniciar Sesión */
-.get-started {
-    background-color: var(--color-secondary);
+        .logo-text {
+            font-size: 32px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .tesoro-highlight {
+            background-color: #192048; /* Exact dark blue requested */
+            color: white;
+            padding: 5px 15px;
+            border-radius: 4px;
+            margin-left: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .tesoro-highlight::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: skewX(-25deg);
+            animation: shine-button 3s infinite;
+            animation-delay: 1s;
+        }
+        
+        .treasure-gif {
+            height: 130px; /* Aumentado de 40px a 80px */
+            margin-left: 15px;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+            transition: all 0.3s ease;
+            position: relative;
+            top: 35px; /* Hace que el GIF sobresalga por debajo */
+            z-index: 10; /* Asegura que el GIF esté por encima de otros elementos */
+        }
+        
+        @keyframes shine-button {
+            0% {
+                left: -100%;
+            }
+            50% {
+                left: 100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        /* Hover animations */
+        nav:hover .logo-text {
+            transform: scale(1.02);
+        }
+        
+        nav:hover .tesoro-highlight {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        nav:hover .treasure-gif {
+            animation: bounce 0.8s ease infinite;
+        }
+        /* Ajustes para destacar "TESORO" */
+.tesoro-highlight {
+    background-color: #192048;
     color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 25px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
+    padding: 5px 15px;
+    border-radius: 4px;
+    margin-left: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Ajustes para la imagen GIF del tesoro */
+.treasure-gif {
+    height: 130px;
+    margin-left: 15px;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
     transition: all 0.3s ease;
     position: relative;
-    overflow: hidden;
-    z-index: 1;
+    top: 35px;
+    z-index: 10;
 }
 
-/* Efecto de resplandor al hover */
-.get-started:hover {
-    background-color: #cc0016;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(230, 0, 25, 0.3);
-}
-
-/* Efecto de pulso */
-.get-started::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 25px;
-    transform: scale(0);
-    opacity: 0;
-    transition: all 0.5s ease;
-    z-index: -1;
-}
-
-.get-started:hover::before {
-    transform: scale(1.5);
-    opacity: 0;
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-        opacity: 0.7;
-    }
-    100% {
-        transform: scale(1.5);
-        opacity: 0;
-    }
-}
-        
-/* Estilos para dispositivos móviles */
+/* Media queries para dispositivos medianos */
 @media screen and (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        padding: 15px 5%;
+    .logo-text {
+        font-size: 26px; /* Reduce el tamaño del texto */
     }
-                
-    .logo {
-        margin-bottom: 15px;
-    }
-                
-    .nav-links {
-        flex-direction: column;
-        width: 100%;
-        text-align: center;
-        margin-bottom: 15px;
-    }
-                
-    .nav-links li {
-        padding: 10px 0;
-    }
-                
-    .dropdown-content {
-        position: relative;
-        width: 100%;
+    
+    .treasure-gif {
+        height: 100px; /* Reduce el tamaño del GIF */
+        top: 20px; /* Ajusta la posición superior */
     }
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
+/* Media queries para dispositivos pequeños */
+@media screen and (max-width: 576px) {
+    .logo-container {
+        flex-direction: column; /* Cambia a disposición vertical */
+        text-align: center;
+        gap: 5px;
+    }
+    
+    .logo-text {
+        font-size: 22px; /* Reduce aún más el tamaño del texto */
+        margin-bottom: 5px;
+    }
+    
+    .tesoro-highlight {
+        margin-left: 2px;
+        padding: 3px 10px;
+    }
+    
+    .treasure-gif {
+        height: 80px; /* Reduce aún más el tamaño del GIF */
+        margin-left: 0;
+        top: 10px;
+    }
 }
+
+/* Media queries para dispositivos muy pequeños */
+@media screen and (max-width: 320px) {
+    .logo-text {
+        font-size: 18px; /* Reduce al mínimo el tamaño del texto */
+    }
+    
+    .treasure-gif {
+        height: 60px; /* Reduce al mínimo el tamaño del GIF */
+    }
+
+        /* Estilos para los modales */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #e60019;
+            text-decoration: none;
+        }
+
+        .modal-content h2 {
+            color: #1e3160;
+            margin-bottom: 20px;
+        }
+
+        .modal-content h3 {
+            color: #1e3160;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .modal-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .modal-content ul {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+
+        .modal-content li {
+            margin-bottom: 8px;
+        } 
+      }
+      /* Contenedor principal */
+.contenedor {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+}
+
+/* TRES CONTENEDORES INDEPENDIENTES */
+
+/* Contenedor 1: para garantía */
+.contenedor-garantia {
+    position: absolute;
+    left: 5%;
+    top: 350px; /* Ajusta esta altura según necesites */
+    width: 180px;
+    z-index: 10;
+}
+
+.garantia-titulo {
+    font-size: 30px;
+    font-weight: 800;
+    color: #1e3160; /* Azul corporativo */
+    line-height: 1.2;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.garantia-linea {
+    width: 80px;
+    height: 4px;
+    background-color: #e60019; /* Rojo corporativo */
+    margin: 15px 0;
+    border-radius: 2px;
+}
+
+.garantia-subtitulo {
+    font-size: 28px;
+    font-weight: 700;
+    color: #e60019; /* Rojo corporativo */
+}
+
+/* Contenedor 2: para carrusel */
+.contenedor-carrusel {
+    width: 60%;
+    margin: 0 auto;
+    padding: 30px 0;
+    position: relative;
+    z-index: 5;
+}
+
+.carrusel-premio {
+    width: 100%;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+}
+
+.carrusel-wrapper {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+}
+
+/* Contenedor 3: para imagen */
+.contenedor-imagen {
+    position: absolute;
+    right: 1%;
+    top: 300px; /* Ajusta esta altura según necesites */
+    width: -200x;
+    z-index: 10;
+    width: 150px;
+    height: 150px;
+}
+
+.sello-img {
+    max-width: 400%;
+    max-height: 300px;
+}
+
+/* Media queries para responsividad */
+@media screen and (max-width: 1200px) {
+    .contenedor-garantia {
+        left: 3%;
+        width: 160px;
+    }
+    
+    .contenedor-imagen {
+        right: 3%;
+        width: 130px;
+    }
+    
+    .garantia-titulo {
+        font-size: 26px;
+    }
+    
+    .garantia-subtitulo {
+        font-size: 24px;
+    }
+    
+    .contenedor-carrusel {
+        width: 65%;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .contenedor-garantia,
+    .contenedor-imagen {
+        position: static;
+        width: 100%;
+        margin: 20px auto;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .garantia-titulo, 
+    .garantia-subtitulo {
+        text-align: center;
+    }
+    
+    .contenedor-carrusel {
+        width: 85%;
+    }
+    
+    .carrusel-wrapper {
+        height: 350px;
+    }
+    
+    /* Reordenar elementos en móvil */
+    .contenedor {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .premio-header {
+        order: 1;
+    }
+    
+    .contenedor-garantia {
+        order: 2;
+    }
+    
+    .contenedor-carrusel {
+        order: 3;
+    }
+    
+    .contenedor-imagen {
+        order: 4;
+    }
+    
+    .cantidades-limitadas {
+        order: 5;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .carrusel-wrapper {
+        height: 250px;
+    }
+    
+    .garantia-titulo {
+        font-size: 22px;
+    }
+    
+    .garantia-subtitulo {
+        font-size: 20px;
+    }
+    
+    .contenedor-carrusel {
+        width: 100%;
+        padding: 15px 0;
+    }
+}
+      
 
 html, body {
     width: 100%;
