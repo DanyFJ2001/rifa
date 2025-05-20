@@ -9,6 +9,143 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
+          @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+        }
+        
+        nav {
+            width: 100%;
+            background: linear-gradient(135deg, #ff3e00, #ff5233, #ff7043);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: visible; /* Cambiado de hidden a visible para permitir que el GIF sobresalga */
+        }
+        
+        nav::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: skewX(-25deg);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% {
+                left: -100%;
+            }
+            50% {
+                left: 100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+        
+        .logo-text {
+            font-size: 32px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .tesoro-highlight {
+            background-color: #192048; /* Exact dark blue requested */
+            color: white;
+            padding: 5px 15px;
+            border-radius: 4px;
+            margin-left: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .tesoro-highlight::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: skewX(-25deg);
+            animation: shine-button 3s infinite;
+            animation-delay: 1s;
+        }
+        
+        .treasure-gif {
+            height: 130px; /* Aumentado de 40px a 80px */
+            margin-left: 15px;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+            transition: all 0.3s ease;
+            position: relative;
+            top: 35px; /* Hace que el GIF sobresalga por debajo */
+            z-index: 10; /* Asegura que el GIF esté por encima de otros elementos */
+        }
+        
+        @keyframes shine-button {
+            0% {
+                left: -100%;
+            }
+            50% {
+                left: 100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        /* Hover animations */
+        nav:hover .logo-text {
+            transform: scale(1.02);
+        }
+        
+        nav:hover .tesoro-highlight {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        nav:hover .treasure-gif {
+            animation: bounce 0.8s ease infinite;
+        }
+
         /* Estilos para los modales */
         .modal {
             display: none;
@@ -77,16 +214,14 @@
 </head>
 <body>
     <div class="landing-container">
-        <nav class="navbar" [ngClass]="{'scrolled': isScrolled}">
-            <div class="logo">
-                <img src="imagenes/LOGO 2 COLORES-01.png" alt="Logo de JCAIZAS">
-                <a href="#" class="logo-text">JCAIZAS</a>
+        <nav>
+        <div class="logo-container">
+            <div class="logo-text">
+                COFRE DEL <span class="tesoro-highlight">TESORO</span>
             </div>
-                
-            <ul class="nav-links">
-                <li><a href="index.html">Inicio</a></li>
-            </ul>
-        </nav>
+            <img src="https://i.pinimg.com/originals/59/3d/cd/593dcd770671cc503a0d413334e5c86c.gif" alt="Tesoro" class="treasure-gif">
+        </div>
+    </nav>
         
         <!-- Sección del Premio Principal con Carrusel y Barra de Progreso -->
         <section class="premio-principal">
@@ -507,8 +642,8 @@
                             <a href="https://www.instagram.com/jcaizas1/?hl=es-la" aria-label="Instagram" class="social-icon">
                                 <i class="fab fa-instagram"></i>
                             </a>
-                          
-                           
+                            <a href="https://www.tiktok.com/@jcaizas" aria-label="TikTok" class="social-icon">
+                                <i class="fab fa-tiktok"></i>
                         </div>
                         
                         <div class="copyright">
@@ -589,7 +724,7 @@
             
             <p><strong>Fecha de última actualización:</strong> 19 de mayo de 2025</p>
             
-            <p>JCAIZAS (en adelante, "nosotros" o "el Organizador") se compromete a proteger y respetar su privacidad. Esta Política establece la base sobre la cual procesamos cualquier dato personal que recopilamos de usted o que nos proporciona en relación con su participación en el sorteo de un vehículo Suzuki Forsa 1.</p>
+            <p>JCAIZAS se compromete a proteger y respetar su privacidad. Esta Política establece la base sobre la cual procesamos cualquier dato personal que recopilamos de usted o que nos proporciona en relación con su participación en el sorteo de un vehículo Suzuki Forsa 1.</p>
             
             <h3>1. Recopilación de Información</h3>
             <p>Recopilamos los siguientes datos personales:</p>
